@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Máy tính cơ bản</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: "Segoe UI", system-ui, sans-serif;
+            background: linear-gradient(135deg, #4f46e5, #0ea5e9);
+            padding: 16px;
+        }
+        .card {
+            width: 100%;
+            max-width: 380px;
+            background: #fff;
+            border-radius: 16px;
+            padding: 28px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, .25);
+        }
+        h1 {
+            margin: 0 0 20px;
+            font-size: 24px;
+            text-align: center;
+            color: #1e293b;
+        }
+        .field { margin-bottom: 16px; }
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #475569;
+        }
+        input, select {
+            width: 100%;
+            padding: 12px 14px;
+            font-size: 18px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            background: #f8fafc;
+            color: #0f172a;
+            outline: none;
+            transition: border-color .15s, box-shadow .15s;
+        }
+        input:focus, select:focus {
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, .2);
+            background: #fff;
+        }
+        .invalid { border-color: #ef4444; background: #fef2f2; }
+        .loi {
+            margin: 6px 0 0;
+            font-size: 13px;
+            color: #dc2626;
+        }
+        button {
+            width: 100%;
+            margin-top: 4px;
+            padding: 13px;
+            font-size: 17px;
+            font-weight: 600;
+            color: #fff;
+            background: #4f46e5;
+            border: 0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background .15s, transform .05s;
+        }
+        button:hover { background: #4338ca; }
+        button:active { transform: scale(.98); }
+        .ketqua {
+            margin-top: 20px;
+            padding: 16px;
+            text-align: center;
+            font-size: 26px;
+            font-weight: 700;
+            color: #166534;
+            background: #f0fdf4;
+            border: 2px solid #86efac;
+            border-radius: 12px;
+            word-break: break-all;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Máy tính cơ bản</h1>
+
+        <form method="post">
+            <div class="field">
+                <label for="a">Số thứ nhất (a)</label>
+                <input type="text" id="a" name="a" value="{{ a }}"
+                       {% if errors.a %}class="invalid"{% endif %}>
+                {% if errors.a %}<p class="loi">{{ errors.a }}</p>{% endif %}
+            </div>
+
+            <div class="field">
+                <label for="op">Phép toán</label>
+                <select id="op" name="op" {% if errors.op %}class="invalid"{% endif %}>
+                    {% for o in ops %}
+                    <option value="{{ o }}" {% if o == op %}selected{% endif %}>{{ o }}</option>
+                    {% endfor %}
+                </select>
+                {% if errors.op %}<p class="loi">{{ errors.op }}</p>{% endif %}
+            </div>
+
+            <div class="field">
+                <label for="b">Số thứ hai (b)</label>
+                <input type="text" id="b" name="b" value="{{ b }}"
+                       {% if errors.b %}class="invalid"{% endif %}>
+                {% if errors.b %}<p class="loi">{{ errors.b }}</p>{% endif %}
+            </div>
+
+            <button type="submit">Tính</button>
+        </form>
+
+        {% if result %}
+            <div class="ketqua">{{ result }}</div>
+        {% endif %}
+    </div>
+</body>
+</html>

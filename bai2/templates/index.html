@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tính điểm học phần</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center;
+               padding: 16px; font-family: "Segoe UI", system-ui, sans-serif;
+               background: linear-gradient(135deg, #4f46e5, #0ea5e9); }
+        .card { width: 100%; max-width: 400px; background: #fff; border-radius: 16px;
+                padding: 28px; box-shadow: 0 20px 50px rgba(0, 0, 0, .25); }
+        h1 { margin: 0 0 20px; font-size: 24px; text-align: center; color: #1e293b; }
+        .field { margin-bottom: 16px; }
+        label { display: block; margin-bottom: 6px; font-size: 14px; font-weight: 600; color: #475569; }
+        input { width: 100%; padding: 12px 14px; font-size: 18px; color: #0f172a; border: 2px solid #e2e8f0;
+                border-radius: 10px; background: #f8fafc; outline: none;
+                transition: border-color .15s, box-shadow .15s; }
+        input:focus { border-color: #4f46e5; background: #fff; box-shadow: 0 0 0 3px rgba(79, 70, 229, .2); }
+        input.invalid { border-color: #ef4444; background: #fef2f2; }
+        .loi { margin: 6px 0 0; font-size: 13px; color: #dc2626; }
+        button { width: 100%; margin-top: 4px; padding: 13px; font-size: 17px; font-weight: 600; color: #fff;
+                 background: #4f46e5; border: 0; border-radius: 10px; cursor: pointer;
+                 transition: background .15s, transform .05s; }
+        button:hover { background: #4338ca; }
+        button:active { transform: scale(.98); }
+        .ketqua { margin-top: 20px; padding: 16px; text-align: center; border-radius: 12px; border: 2px solid; }
+        .ketqua .chinh { font-size: 28px; font-weight: 700; }
+        .ketqua .phu { margin-top: 4px; font-size: 14px; font-weight: 600; opacity: .85; }
+        .xanh, .tot { color: #166534; background: #f0fdf4; border-color: #86efac; }
+        .vang, .trungbinh { color: #92400e; background: #fffbeb; border-color: #fcd34d; }
+        .do, .kem { color: #991b1b; background: #fef2f2; border-color: #fca5a5; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Tính điểm học phần</h1>
+        <form method="post" novalidate>
+            {% for f in fields %}
+            <div class="field">
+                <label for="{{ f.key }}">{{ f.label }} ({{ f.weight }}%)</label>
+                <input type="text" inputmode="decimal" id="{{ f.key }}" name="{{ f.key }}"
+                       value="{{ values[f.key] }}" {% if errors[f.key] %}class="invalid"{% endif %}>
+                {% if errors[f.key] %}<p class="loi">{{ errors[f.key] }}</p>{% endif %}
+            </div>
+            {% endfor %}
+            <button type="submit">Tính điểm</button>
+        </form>
+
+        {% if result %}
+        <div class="ketqua {{ 'tot' if result.grade in ('A', 'B') else ('trungbinh' if result.grade in ('C', 'D') else 'kem') }}">
+            <div class="chinh">{{ result.text }}</div>
+            {% if result.liet %}<div class="phu">(điểm thi dưới 1)</div>{% endif %}
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
